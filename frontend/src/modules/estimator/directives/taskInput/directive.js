@@ -36,16 +36,12 @@ module.exports = () => {
         if (keyCode === 13) {
           const {task: text, estimate, tags} = $scope;
 
-          tasksStore.addTask({
-            text,
-            estimate,
-            tags
-          });
+          const task = addTask({text, estimate, tags});
         }
       };
 
-      function addTask() {
-
+      function addTask(task) {
+        return tasksStore.addTask(task);
       }
     }]
   };
@@ -151,16 +147,8 @@ function insertKey(tree, key, word) {
 function extractEstimate(text = '') {
   const matches = text.match(pattern);
   if (matches) {
-    const components = matches.map(match => {
-                        const [
-                          x,
-                          magnitude,
-                          unit
-                        ] = match.match(pattern.source);
-
-                        return {magnitude, unit};
-                      }),
-          total = components.reduce((sum, component) => sum + inMilliseconds(component), 0);
+    const components = matches.map(match => ((([_, magnitude, unit]) => ({magnitude, unit}))(match.match(pattern.source)))),
+          total = _.sum(components, inMilliseconds);
 
     return {
       total,
