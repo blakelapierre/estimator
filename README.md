@@ -1,9 +1,3 @@
-# base-angular
-
-#### An advanced, base Angular.js project supporting ECMAScript 6/7, LESS, modularized Angular development, and comes with an out-of-the-box full-featured Gulp.js build and development pipeline.
-
-#### Tuned for rapid web application development and deployment.
-
 ---------------
 
  First, make sure you have gulpur installed so that you can use ECMAScript 6 features in the gulpfile. This allows more concise syntax and is thus easier to read.
@@ -12,8 +6,8 @@
 
 ##### Install
 ````
-git clone https://github.com/blakelapierre/base-angular
-cd base-angular/frontend
+git clone https://github.com/blakelapierre/estimator
+cd estimator/frontend
 npm install
 ````
 
