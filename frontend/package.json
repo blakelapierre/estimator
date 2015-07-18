@@ -4,7 +4,8 @@
   "repository": "https://github.com/blakelapierre/base-angular",
   "version": "0.0.6",
   "dependencies": {
-    "angular": "^1.4.1"
+    "angular": "^1.4.1",
+    "angular-route": "^1.4.3"
   },
   "devDependencies": {
     "babelify": "^6.1.2",

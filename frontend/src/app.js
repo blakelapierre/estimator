@@ -1,5 +1,5 @@
-import baseAngular from './modules/base-angular';
+import estimator from './modules/estimator';
 
 module.exports = {
-  'base-angular': baseAngular['base-angular']
+  'estimator': estimator.estimator
 };

@@ -1,0 +1,146 @@
+task-input {
+  display: flex;
+
+  .indicator {
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+
+    padding: 0.125em;
+    // margin: 0.125em;
+
+    box-shadow: inset 0px 0px 5px #666;
+
+    &.is-editing {
+      background-color: #999;
+    }
+
+    .input {
+      flex: 1 1 auto;
+
+      background-color: #eee;
+
+      max-height: 50vh;
+
+      overflow: auto;
+
+      .input-background {
+        display: inline;
+        color: #000;
+
+        background-color: #eee;
+        color: #000;
+
+        // height: auto;
+        max-height: 50vh;
+        max-width: 100%;
+
+        overflow: auto;
+      }
+
+      .f {
+        display: block;
+        height: 1.5em;
+
+        text-align: center;
+
+        font-size: 1em;
+        font-family: sans-serif;
+        font-weight: bold;
+
+        background: transparent;
+
+        border: none;
+
+        color: #fff;
+
+        // transition: background 0.25s ease-in-out, color 0.25s ease-in-out;
+        transition: all 0.25s ease-in-out;
+
+        cursor: text;
+
+        .placeholder({
+          color: #fff;
+        });
+
+        &:focus {
+          color: #000;
+
+          // font-size: 1em;
+          padding: 0.25em 0;
+
+          .placeholder({
+            color: #666;
+          });
+        }
+      }
+
+      .task-input {
+        display: inline;
+        color: #000;
+
+        background-color: #eee;
+        color: #000;
+
+        // height: auto;
+        max-height: 50vh;
+        max-width: 100%;
+
+        outline: none;
+      }
+
+      .estimate-input {
+        display: flex;
+
+        align-items: center;
+
+        line-height: 1em;
+        font-size: 1em;
+
+        float: right;
+
+        background-color: #333;
+      }
+    }
+
+    footer {
+      display: flex;
+
+      justify-content: space-between;
+
+      .tags {
+        display: flex;
+
+        font-size: 0.75em;
+
+        .tag {
+          margin: 0.25em;
+          padding: 0.25em;
+
+          background-color: #444;
+        }
+      }
+
+      .commands {
+        display: flex;
+      }
+    }
+  }
+}
+
+.placeholder(@rules) {
+  &::-webkit-input-placeholder {
+    @rules();
+  }
+  &:-moz-placeholder {
+    @rules();
+  }
+  &::-moz-placeholder {
+    @rules();
+  }
+  &:-ms-input-placeholder {
+    @rules();
+  }
+}

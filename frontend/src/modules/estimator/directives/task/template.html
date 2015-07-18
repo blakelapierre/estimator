@@ -1,0 +1,14 @@
+<span>{{task.text}}</span>
+<span>{{task.estimate}}</span>
+
+<div ng-repeat="tag in task.tags">
+  <span class="tag">{{tag}}</span>
+</div>
+
+<div>
+  <button ng-click="startTimer()">Start</button>
+  <button ng-click="pauseTimer()">||</button>
+  <button ng-click="done()" ng-if="!task.isDone">Done</button>
+  <button ng-click="notDone()" ng-if="task.isDone">Not Done</button>
+  <toggle condition="task.isDone" when-true="notDone()" when-false="done()"></toggle>
+</div>

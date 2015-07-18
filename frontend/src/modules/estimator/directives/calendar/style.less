@@ -1,0 +1,38 @@
+calendar {
+  .annotations {
+    display: flex;
+
+    position: relative;
+
+    margin: 0.25em;
+
+    .annotation {
+      display: flex;
+      flex-wrap: wrap;
+
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      overflow: visible;
+
+      word-wrap: break-word;
+    }
+
+    .current-time {
+      position: absolute;
+
+      width: 2px;
+      height: 110%;
+
+      top: -5%;
+
+      background-color: #ff0;
+    }
+  }
+}

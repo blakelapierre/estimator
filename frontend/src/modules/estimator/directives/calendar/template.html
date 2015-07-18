@@ -1,0 +1,66 @@
+Calendar
+
+<div class="annotations">
+  <div ng-repeat="annotation in annotations track by $index"
+       ng-style="{
+                  'width': annotation.width,
+                  'background': annotation.background
+                 }"
+       class="annotation">
+{{annotation.title}}
+  </div>
+
+  <div class="current-time" ng-style="{'left': currentTime}"></div>
+</div>
+
+<div class="annotations">
+  <div ng-repeat="annotation in annotations track by $index"
+       ng-style="{
+                  'width': annotation.width,
+                  'background': annotation.background
+                 }"
+       class="annotation">
+{{annotation.title}}
+  </div>
+</div>
+
+<div class="annotations">
+  <div ng-repeat="annotation in annotations track by $index"
+       ng-style="{
+                  'width': annotation.width,
+                  'background': annotation.background
+                 }"
+       class="annotation">
+{{annotation.title}}
+  </div>
+</div>
+
+<div class="annotations">
+  <div ng-repeat="annotation in kimAnnotations track by $index"
+       ng-style="{
+                  'width': annotation.width,
+                  'background': annotation.background
+                 }"
+       class="annotation">
+{{annotation.title}}
+  </div>
+</div>
+
+<div class="annotations">
+  <div ng-repeat="annotation in kimAnnotations2 track by $index"
+       ng-style="{
+                  'width': annotation.width,
+                  'background': annotation.background
+                 }"
+       class="annotation">
+{{annotation.title}}
+  </div>
+</div>
+
+<form>
+  <label>Title: <input type="text"></label>
+  <label>Duration: <input type="text"></label>
+  <input type="submit">
+</form>
+
+<list-view></list-view>

@@ -1,0 +1,31 @@
+<div ng-class="{'indicator': true,
+                'is-editing': isEditing
+               }">
+  <div class="input">
+    <div type="text" ng-model="estimate"
+         class="f estimate-input"
+         contenteditable="true"
+         select-on-focus="false"
+         editable-type="string"
+         ng-show="estimate != null && estimate !== ''"></div>
+
+    <div type="text" ng-model="task.text"
+           class="f task-input"
+           ng-keypress="taskKeypress($event)"
+           ng-focus="isEditing = true"
+           contenteditable="true"
+           select-on-focus="false"
+           editable-type="string"
+           placeholder="Enter New Task (e.g. 'finish document 5 minutes @2pm') ..."></div>
+
+  </div>
+  <footer>
+    <div class="tags">
+      <span ng-repeat="tag in tags" class="tag">{{tag}}</span>
+    </div>
+
+    <div class="commands">
+      <button ng-if="isEditing">Remove</button>
+    </div>
+  </footer>
+</div>
