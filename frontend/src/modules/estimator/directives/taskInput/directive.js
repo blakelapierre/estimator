@@ -147,7 +147,7 @@ function insertKey(tree, key, word) {
 function extractEstimate(text = '') {
   const matches = text.match(pattern);
   if (matches) {
-    const components = matches.map(match => ((([_, magnitude, unit]) => ({magnitude, unit}))(match.match(pattern.source)))),
+    const components = mapRegex(pattern.source, ([_, magnitude, unit]) => ({magnitude, unit}), matches),
           total = _.sum(components, inMilliseconds);
 
     return {
@@ -159,6 +159,14 @@ function extractEstimate(text = '') {
 
 function extractTags(text = '') {
   return text.match(/#([\w\d]+)/g);
+}
+
+// mapRegex(regex, ([p1, p2, p3]) => ({p1, p2, p3}));
+// mapRegex(/(\d) (m)/, ([_, magnitude, unit]) => ({magnitude, unit}), ['5 m']);
+// mapRegex(/(\\d+)\\s*(${units})[^a-zA-Z]?/g, ([_, magnitude, unit]) => ({magnitude, unit}), ['5 m']);
+
+function mapRegex(regex, fn, list) {
+  return list.map(item => fn(item.match(regex)));
 }
 
 const toMilliseconds = {
