@@ -26,6 +26,8 @@ module.exports = ['$sce', '$window', function($sce, $window) {
 
       if (attributes.selectOnFocus === 'true') element.on('focus', selectText);
 
+      if (attributes.autoFocus === 'true') element[0].focus();
+
       element.on('blur change keyup', () => $scope.$evalAsync(read));
 
       ngModel.$render = () => {
