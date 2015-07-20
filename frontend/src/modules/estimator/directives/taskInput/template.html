@@ -21,7 +21,7 @@
   </div>
   <footer>
     <div class="tags">
-      <span ng-repeat="tag in tags" class="tag">{{tag}}</span>
+      <span ng-repeat="tag in tags track by $index" class="tag">{{tag}}</span>
     </div>
 
     <div class="commands">
