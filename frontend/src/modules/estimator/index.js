@@ -1,11 +1,12 @@
 require('angular');
+require('angular-animate');
 require('angular-route');
 
 import contenteditable from '../contenteditable';
 
 module.exports = {
   'contenteditable': contenteditable['contenteditable'],
-  'estimator': angular.module('estimator', ['ngRoute', 'contenteditable'])
+  'estimator': angular.module('estimator', ['ngAnimate', 'ngRoute', 'contenteditable'])
     .directive('calendar',       require('./directives/calendar/directive'))
       .directive('listView',       require('./directives/calendar/listView/directive'))
     .directive('estimator',      require('./directives/estimator/directive'))
