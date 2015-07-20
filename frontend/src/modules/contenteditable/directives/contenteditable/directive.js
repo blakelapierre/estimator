@@ -24,13 +24,9 @@ module.exports = ['$sce', '$window', function($sce, $window) {
         }
       }
 
-      console.log({attributes});
-
       if (attributes.selectOnFocus === 'true') element.on('focus', selectText);
 
-      element.on('blur change keypress', () => {
-        $scope.$evalAsync(read);
-      });
+      element.on('blur change keyup', () => $scope.$evalAsync(read));
 
       ngModel.$render = () => {
         element.html(ngModel.$viewValue);
@@ -52,8 +48,6 @@ module.exports = ['$sce', '$window', function($sce, $window) {
         ngModel.$setViewValue(html);
 
         if (!ngModel.$valid) ngModel.$setViewValue(oldValue);
-
-        ngModel.$render();
       }
 
       function transformInt(value) {
