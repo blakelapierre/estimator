@@ -1,5 +1,7 @@
 Calendar
 
+<list-view></list-view>
+
 <div class="annotations">
   <div ng-repeat="annotation in annotations track by $index"
        ng-style="{
@@ -56,11 +58,3 @@ Calendar
 {{annotation.title}}
   </div>
 </div>
-
-<form>
-  <label>Title: <input type="text"></label>
-  <label>Duration: <input type="text"></label>
-  <input type="submit">
-</form>
-
-<list-view></list-view>
