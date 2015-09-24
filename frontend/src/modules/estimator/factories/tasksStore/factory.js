@@ -245,22 +245,12 @@ function register(obj) {
   return name => {
     const obj = {},
           data = {},
-          eventStream = stream();
-
-    const schema = schemas[name];
+          eventStream = stream(),
+          schema = schemas[name];
 
     if (!schema) throw Error(`No schema with name: ${name}!`);
 
-    _.each(schema, (type, propertyName) => {
-      const {name: typeName, initializer, setter} = type;
-
-      initializer(data, propertyName);
-
-      Object.defineProperty(obj, propertyName, {
-        get: () => data[propertyName],
-        set: value => eventStream.emit(setter(data, propertyName, value))
-      });
-    });
+    _.each(schema, addProperty);
 
     return {
       obj,
@@ -288,6 +278,20 @@ function register(obj) {
 
       function unregister() {
         callback = defaultCallback;
+      }
+    }
+
+    function addProperty(type, propertyName) {
+      const {name: typeName, initializer, setter} = type;
+
+      initializer(data, propertyName);
+      defineAccessors(obj, propertyName, setter);
+
+      function defineAccessors(obj, propertyName, setter) {
+        Object.defineProperty(obj, propertyName, {
+          get: () => data[propertyName],
+          set: value => eventStream.emit(setter(data, propertyName, value))
+        });
       }
     }
   };
