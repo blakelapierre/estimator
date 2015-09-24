@@ -4,7 +4,7 @@ module.exports = () => {
   return {
     restrict: 'E',
     template: require('./template.html'),
-    controller: ['$scope', 'tasksStore', ($scope, tasksStore) => {
+    controller: ['$scope', 'tasksStore', 'parser', ($scope, tasksStore, parser) => {
       $scope.$watch('task.text', (newValue, oldValue) => {
         const isEditing = !!newValue,
               estimate = extractEstimate(newValue),
@@ -24,8 +24,14 @@ module.exports = () => {
           $scope.task = tasksStore.addTask();
         }
 
+        console.log({isEditing, newValue});
+
         $scope.tags = tags;
         $scope.isEditing = isEditing;
+
+
+        const r = parser.parse(newValue);
+        console.log({r});
       });
 
       $scope.taskKeypress = $event => {

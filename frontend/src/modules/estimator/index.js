@@ -14,6 +14,7 @@ module.exports = {
     .directive('taskInput',      require('./directives/taskInput/directive'))
 
     .factory('tasksStore',       require('./factories/tasksStore/factory'))
+    .factory('parser',           require('./factories/parser/factory'))
 
     .config(['$routeProvider', $routeProvider => {
 

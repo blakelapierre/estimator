@@ -1,0 +1,33 @@
+exercise {
+  getDuration() {
+    return tasks.reduce(tasks, (total, {quantity, {costs:{time:{setup, each, teardown}}}}) => setup + quantity * each + teardown, 0);
+  }
+}
+
+function init(db = {}) {
+  stamp(db);
+
+  function stamp(db) {
+    db.clock = 0;
+  }
+
+  return wrap(db);
+
+  function wrap(db) {
+    extend(db, {
+      register
+    });
+
+    return db;
+
+    function extend(db, abilities) {
+      abilities.each((name, ability) => db[name] = ability);
+    }
+  };
+
+  function register(schema) {
+
+  }
+}
+
+const db = init();
