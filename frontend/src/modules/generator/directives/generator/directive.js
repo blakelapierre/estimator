@@ -9,20 +9,18 @@ export default ['$compile', '$timeout', ($compile, $timeout) => {
             splitOn = attributes['splitOn'],
             attributeString = _.map(attributes.$attr, (value, name) => ` ${name}="${attributes[name]}"`).join('');
 
-      $scope.$on(splitOn, () => {
-        console.log('is-editing');
-        $timeout(split, 0);
-      });
+      attachSplit($scope);
 
-      $scope.split = split;
+      function attachSplit(scope) {
+        scope.$on(splitOn, () => $timeout(split, 0));
+        scope.split = split;
+      }
 
       function split() {
         const scope = $scope.$new(true);
 
-        scope.$on(splitOn, split);
-        scope.split = split;
+        attachSplit(scope);
 
-        console.log('split', {$scope, element, attributes, attributeString});
         before(element, $compile(`<${tag}${attributeString}></${tag}>`)(scope));
       }
     }
