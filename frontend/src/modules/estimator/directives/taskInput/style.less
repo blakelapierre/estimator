@@ -9,7 +9,7 @@ task-input {
 
     flex-direction: column;
 
-    flex: 0 1 auto;
+    flex: 1 1 auto;
 
     padding: 0.125em;
     // margin: 0.125em;
@@ -36,7 +36,9 @@ task-input {
     }
 
     .input {
-      flex: 1 1 auto;
+      flex: 0 1 auto;
+
+      width: auto;
 
       background: transparent;
 
@@ -45,6 +47,8 @@ task-input {
       max-height: 50vh;
 
       overflow: auto;
+
+      text-align: center;
 
       transition: all 0.5s ease-in-out;
 
@@ -95,7 +99,7 @@ task-input {
         &.task-input {
           margin: 0 auto;
 
-          width: inherit;
+          display: inline-block;
 
           text-align: left;
 
@@ -127,10 +131,12 @@ task-input {
       }
     }
 
-    footer {
+    .footer {
       display: flex;
 
       justify-content: space-between;
+
+      min-width: 50%;
 
       .tags {
         display: flex;

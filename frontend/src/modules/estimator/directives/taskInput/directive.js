@@ -5,33 +5,49 @@ module.exports = () => {
     restrict: 'E',
     template: require('./template.html'),
     controller: ['$scope', 'tasksStore', 'parser', ($scope, tasksStore, parser) => {
+      let isEditing = false;
+
       $scope.$watch('task.text', (newValue, oldValue) => {
-        const isEditing = !!newValue,
-              estimate = extractEstimate(newValue),
-              tags = extractTags(newValue);
+        const haveValue = !!newValue;
 
-        console.log({newValue, oldValue, estimate, tags});
+        if (haveValue) {
+          const estimate = extractEstimate(newValue),
+                tags = extractTags(newValue);
 
-        if (estimate) {
-          const {components} = estimate;
+          console.log({newValue, oldValue, estimate, tags});
 
-          $scope.estimate = _.map(components, component => `${component.magnitude} ${unitMap[component.unit]}`)
-                             .join(' ');
+          if (estimate) {
+            const {components} = estimate;
+
+            $scope.estimate = _.map(components, ({magnitude, unit}) => `${magnitude} ${unitMap[unit]}`)
+                               .join(' ');
+          }
+          else $scope.estimate = '';
+
+          if (!$scope.task) {
+            $scope.task = tasksStore.addTask();
+          }
+
+          console.log('isEditing', isEditing, 'newValue', newValue);
+
+          if (!isEditing && !!newValue) {
+            isEditing = true;
+            $scope.$broadcast('is-editing');
+          }
+
+          $scope.tags = tags;
+          $scope.isEditing = isEditing;
+
+          const r = parser.parse(newValue);
+          console.log({r});
         }
-        else $scope.estimate = '';
-
-        if (!$scope.task) {
-          $scope.task = tasksStore.addTask();
+        else {
+          // is this what should be here?
+          $scope.tags = undefined;
+          $scope.isEditing = false;
+          $scope.task = undefined;
+          $scope.estimate = undefined;
         }
-
-        console.log({isEditing, newValue});
-
-        $scope.tags = tags;
-        $scope.isEditing = isEditing;
-
-
-        const r = parser.parse(newValue);
-        console.log({r});
       });
 
       $scope.taskKeypress = $event => {

@@ -17,7 +17,7 @@
            placeholder="Add to the Calendar (e.g. 'finish document @2pm 5 minutes #research') ..."></div>
 
   </div>
-  <footer>
+  <div class="footer">
     <div class="tags">
       <span ng-repeat="tag in tags track by $index" class="tag">{{tag}}</span>
     </div>
@@ -25,5 +25,5 @@
     <div class="commands">
       <button ng-if="isEditing"><div class="text">Remove</div></button>
     </div>
-  </footer>
+  </div>
 </div>
