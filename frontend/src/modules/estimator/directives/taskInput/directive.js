@@ -7,7 +7,9 @@ module.exports = () => {
     controller: ['$scope', 'tasksStore', 'parser', ($scope, tasksStore, parser) => {
       let isEditing = false;
 
-      $scope.$watch('task.text', (newValue, oldValue) => {
+      $scope.$watch('task.text', textChanged);
+
+      function textChanged(newValue, oldValue) {
         const haveValue = !!newValue;
 
         if (haveValue) {
@@ -24,14 +26,11 @@ module.exports = () => {
           }
           else $scope.estimate = '';
 
-          if (!$scope.task) {
-            $scope.task = tasksStore.addTask();
-          }
-
           console.log('isEditing', isEditing, 'newValue', newValue);
 
           if (!isEditing && !!newValue) {
             isEditing = true;
+            $scope.task = addTask({text: newValue, estimate, tags});
             $scope.$broadcast('is-editing');
           }
 
@@ -48,19 +47,7 @@ module.exports = () => {
           $scope.task = undefined;
           $scope.estimate = undefined;
         }
-      });
-
-      $scope.taskKeypress = $event => {
-        const {keyCode} = $event;
-
-        console.log({keyCode, task: $scope.task});
-
-        if (keyCode === 13) {
-          const {task: text, estimate, tags} = $scope;
-
-          const task = addTask({text, estimate, tags});
-        }
-      };
+      }
 
       function addTask(task) {
         return tasksStore.addTask(task);
