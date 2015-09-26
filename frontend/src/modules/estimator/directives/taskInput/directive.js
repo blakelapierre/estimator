@@ -9,43 +9,47 @@ module.exports = () => {
 
       $scope.$watch('task.text', textChanged);
 
-      function textChanged(newValue, oldValue) {
-        const haveValue = !!newValue;
+      const extract = (() => {
+        return _.throttle(() => _extract($scope.task.text), 0);
 
-        if (haveValue) {
-          const estimate = extractEstimate(newValue),
-                tags = extractTags(newValue);
-
-          console.log({newValue, oldValue, estimate, tags});
+        function _extract(text) {
+          const estimate = extractEstimate(text),
+                tags = extractTags(text);
 
           if (estimate) {
             const {components} = estimate;
 
             $scope.estimate = _.map(components, ({magnitude, unit}) => `${magnitude} ${unitMap[unit]}`)
-                               .join(' ');
+                                 .join(' ');
           }
           else $scope.estimate = '';
 
-          console.log('isEditing', isEditing, 'newValue', newValue);
+          $scope.tags = tags;
+        }
+      })();
 
+      function textChanged(newValue, oldValue) {
+        const haveValue = !!newValue;
+
+        if (haveValue) {
+          updateLocalState();
+          extract();
+        }
+        else {
+          $scope.isEditing = false;
+          $scope.estimate = undefined;
+          $scope.tags = undefined;
+          $scope.task = undefined;
+        }
+
+        function updateLocalState() {
           if (!isEditing && !!newValue) {
             isEditing = true;
-            $scope.task = addTask({text: newValue, estimate, tags});
+            $scope.task = addTask({text: newValue});
             $scope.$broadcast('is-editing');
           }
 
-          $scope.tags = tags;
           $scope.isEditing = isEditing;
-
-          const r = parser.parse(newValue);
-          console.log({r});
-        }
-        else {
-          // is this what should be here?
-          $scope.tags = undefined;
-          $scope.isEditing = false;
-          $scope.task = undefined;
-          $scope.estimate = undefined;
         }
       }
 
