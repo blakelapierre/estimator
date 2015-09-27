@@ -110,7 +110,7 @@ module.exports = () => {
     task.end = new Date().getTime();
   }
 
-  function nextId() {
+  function nextId() { // consider uuid
     return _id++;
   }
 };
