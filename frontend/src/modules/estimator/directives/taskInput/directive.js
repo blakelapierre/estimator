@@ -193,8 +193,6 @@ const toMilliseconds = {
   'decade':  d => d * 1000 * 60 * 60 * 24 * 365.25 * 10
 };
 
-function inMilliseconds(component) {
-  const {magnitude, unit} = component;
-
+function inMilliseconds({magnitude, unit}) {
   return toMilliseconds[unitMap[unit]](magnitude);
 }
