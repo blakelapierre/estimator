@@ -15,20 +15,22 @@ module.exports = () => {
   };
 
   function addTask(config = {}) {
-    const {text, estimate, tags} = config,
-          id = nextId(),
+    const id = nextId(),
           created = new Date(),
-          record = createRecord();
+          record = createRecord(),
+          {text, estimate, tags, parent} = config;
 
-    let task = tasks[id] = {
-      id,
-      text,
-      estimate,
-      tags,
-      created,
-      record,
-      isDone: false
-    };
+    let task =
+        tasks[id] = {
+          id,
+          parent,
+          text,
+          estimate,
+          tags,
+          created,
+          record,
+          isDone: false
+        };
 
     return task;
 
