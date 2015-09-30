@@ -1,21 +1,21 @@
 import _ from 'lodash';
 
 const commands = (() => {
-  const {cancel, done, pause, restart, resume, start} =  {
+  const {cancel, done, domore, pause, resume, start} =  {
     cancel:  {text: 'Cancel',  state: 'done'},
+    domore:  {text: 'Do More', state: 'domore'},
     done:    {text: 'Done',    state: 'done'},
     pause:   {text: 'Pause',   state: 'paused'},
-    restart: {text: 'Do More', state: 'restart'},
     resume:  {text: 'Resume',  state: 'doing'},
     start:   {text: 'Start',   state: 'doing' }
   };
 
   return {
     doing:   [pause, done],
-    done:    [restart],
+    domore:  [resume, cancel],
+    done:    [domore],
     newTask: [start],
-    paused:  [resume, done],
-    restart: [resume, cancel]
+    paused:  [resume, done]
   };
 /*
 {
