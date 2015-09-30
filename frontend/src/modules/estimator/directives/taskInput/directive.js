@@ -14,7 +14,7 @@ const commands = (() => {
     doing:   [pause, done],
     done:    [restart],
     newTask: [start],
-    paused:  [done, resume],
+    paused:  [resume, done],
     restart: [resume, cancel]
   };
 })();
