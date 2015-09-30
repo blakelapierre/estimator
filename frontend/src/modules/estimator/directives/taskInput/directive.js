@@ -17,6 +17,60 @@ const commands = (() => {
     paused:  [resume, done],
     restart: [resume, cancel]
   };
+/*
+{
+  new {
+    : start {
+      "Start"
+      -> doing
+    }
+  }
+
+  doing {
+    : pause {
+      "Pause"
+      -> paused
+    }
+
+    : done {
+      "Done"
+      -> done
+    }
+  }
+
+  paused {
+    : resume {
+      "Resume"
+      -> doing
+    }
+
+    : done {
+      "Done"
+      -> done
+    }
+  }
+
+  done {
+    : restart {
+      "Do More"
+      -> restart
+    }
+  }
+
+  restart {
+    : resume {
+      "Resume"
+      -> doing
+    }
+
+    : cancel {
+      "Cancel"
+      -> done
+    }
+  }
+}
+*/
+
   /*
 // this should be equivalent in my grammar (haven't checked)
 {
