@@ -22,10 +22,10 @@ task {
     [component] components
 
     summary {
+      bool inProgress
       datetime start
       datetime end
       int total
-      bool inProgress
     }
 
     component {

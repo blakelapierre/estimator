@@ -125,8 +125,8 @@ console.log('t', task.id);
 const schema = {
   'task': ['estimate', 'tag', 'record', (estimate, tag, record) => {
     return {
-      id: auto(),
-      text: string(),
+      id: auto,
+      text: string,
       estimate: {estimate},
       tags: [tag],
       record: {record}
@@ -142,53 +142,53 @@ const schema = {
     return {
       summary: {summary},
       // components: [component]
-      components: {id: component}
+      components: {component}
     };
   }],
   'summary': {
-    'start': datetime(),
-    'end': datetime(),
-    'total': int(),
-    'inProgress': bool()
+    'start': datetime,
+    'end': datetime,
+    'total': int,
+    'inProgress': bool
   },
   'component': {
-    id: auto(),
-    start: datetime(),
-    end: datetime(),
-    total: int()
+    id: auto,
+    start: datetime,
+    end: datetime,
+    total: int
   }
 };
 
-const constructor = register(schema);
+// const constructor = register(schema);
 
-const {obj, eventStream} = constructor('summary');
+// const {obj, eventStream} = constructor('task');
 
-const l = watch(eventStream).listen(r => console.log('obj', r));
+// const l = watch(eventStream).listen(r => console.log('obj', r));
 
-manage(l);
+// manage(l);
 
-console.log({obj, l});
+// console.log({obj, l});
 
-obj.start = new Date();
-obj.start = new Date();
-obj.start = new Date();
-obj.start = new Date();
+// obj.start = new Date();
+// obj.start = new Date();
+// obj.start = new Date();
+// obj.start = new Date();
 
-l.listen(r => console.log('obj2', r));
+// l.listen(r => console.log('obj2', r));
 
-setTimeout(() => {
-  obj.start = new Date();
-  obj.start = new Date();
-  obj.start = new Date();
-  obj.start = new Date();
-}, 1000);
+// setTimeout(() => {
+//   obj.start = new Date();
+//   obj.start = new Date();
+//   obj.start = new Date();
+//   obj.start = new Date();
+// }, 1000);
 
-obj.name = 'blake';
-obj.name = 'blake ';
-obj.name = 'blake l';
-obj.name = 'blake la';
+// obj.name = 'blake';
+// obj.name = 'blake ';
+// obj.name = 'blake l';
+// obj.name = 'blake la';
 
-console.log(obj.name);
+// console.log(obj.name);
 
 (({a, b}, {c}) => {
   a = 'd';
@@ -238,11 +238,17 @@ function watch(stream) {
 }
 
 function register(obj) {
-  const schemas = {};
+  const schemas = _.mapValues(obj, resolve);
 
-  _.each(obj, (schema, name) => {
-    schemas[name] = schema;
-  });
+  function resolve(schema) {
+    if (!_.isArray(schema)) return schema;
+
+    const last = schema.length - 1,
+          fn = schema[last],
+          dependencies = schema.slice(0, last);
+
+    return fn(..._.map(dependencies, resolve));
+  }
 
   return name => {
     const obj = {},
@@ -284,16 +290,38 @@ function register(obj) {
     }
 
     function addProperty(type, propertyName) {
-      const {name: typeName, initializer, setter} = type;
+      switch (typeof type) {
+        case 'function': return processFunction();
+        case 'object': return processObject();
+      }
 
-      initializer(data, propertyName);
-      defineAccessors(obj, propertyName, setter);
+      throw Error('What is this?', type, propertyName);
 
-      function defineAccessors(obj, propertyName, setter) {
-        Object.defineProperty(obj, propertyName, {
-          get: () => data[propertyName],
-          set: value => eventStream.emit(setter(data, propertyName, value))
-        });
+      function processFunction() {
+        type = type(propertyName); // what should we pass (if anything)?
+      }
+
+      function processObject() {
+        const {initializer} = type;
+
+        initializer(data);
+        defineAccessors();
+
+        function defineAccessors() {
+          const {name} = type;
+
+          switch (name) {
+            default: defineObject(); break;
+          }
+
+          function defineObject() {
+            const {setter} = type;
+            Object.defineProperty(obj, propertyName, {
+              get: () => data[propertyName],
+              set: value => eventStream.emit(setter(data, propertyName, value))
+            });
+          }
+        }
       }
     }
   };
