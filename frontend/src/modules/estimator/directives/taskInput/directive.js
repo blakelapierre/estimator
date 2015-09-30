@@ -2,12 +2,12 @@ import _ from 'lodash';
 
 const commands = (() => {
   const {cancel, done, pause, restart, resume, start} =  {
-    cancel:  {text: 'Cancel', state: 'done'},
-    done:    {text: 'Done', state: 'done'},
-    pause:   {text: 'Pause', state: 'paused'},
+    cancel:  {text: 'Cancel',  state: 'done'},
+    done:    {text: 'Done',    state: 'done'},
+    pause:   {text: 'Pause',   state: 'paused'},
     restart: {text: 'Do More', state: 'restart'},
-    resume:  {text: 'Resume', state: 'doing'},
-    start:   {text: 'Start', state: 'doing' }
+    resume:  {text: 'Resume',  state: 'doing'},
+    start:   {text: 'Start',   state: 'doing' }
   };
 
   return {
@@ -17,6 +17,38 @@ const commands = (() => {
     paused:  [resume, done],
     restart: [resume, cancel]
   };
+  /*
+// this should be equivalent in my grammar (haven't checked)
+{
+  new {
+    : [start]
+   -> doing
+  }
+
+  doing {
+    : [pause, done]
+   -> paused
+   -> done
+  }
+
+  paused {
+    : [resume, done]
+   -> doing
+   -> done
+  }
+
+  done {
+    : [restart]
+   -> restart
+  }
+
+  restart {
+    : [resume, cancel]
+   -> doing
+   -> done
+  }
+}
+  */
 })();
 
 module.exports = () => {
