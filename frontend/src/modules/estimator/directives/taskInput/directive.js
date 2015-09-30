@@ -1,22 +1,5 @@
 import _ from 'lodash';
 
-const commands = (() => {
-  const {cancel, done, domore, pause, resume, start} =  {
-    cancel:  {text: 'Cancel',  state: 'done'},
-    domore:  {text: 'Do More', state: 'domore'},
-    done:    {text: 'Done',    state: 'done'},
-    pause:   {text: 'Pause',   state: 'paused'},
-    resume:  {text: 'Resume',  state: 'doing'},
-    start:   {text: 'Start',   state: 'doing'}
-  };
-
-  return {
-    doing:   [pause, done],
-    domore:  [resume, cancel],
-    done:    [domore],
-    newTask: [start],
-    paused:  [resume, done]
-  };
 /*
 {
   new {
@@ -103,16 +86,43 @@ const commands = (() => {
   }
 }
   */
-})();
 
 module.exports = () => {
   return {
     restrict: 'E',
     template: require('./template.html'),
     controller: ['$scope', 'tasksStore', 'parser', ($scope, tasksStore, parser) => {
+      const commands = (({endTask, pauseTask, resumeTask, startTask}) => {
+        const {cancel, done, domore, pause, resume, start} =  {
+          cancel:  {text: 'Cancel',  state: 'done'},
+          domore:  {text: 'Do More', state: 'domore'},
+          done:    {text: 'Done',    state: 'done',   action: endTask},
+          pause:   {text: 'Pause',   state: 'paused', action: pauseTask},
+          resume:  {text: 'Resume',  state: 'doing',  action: startTask},
+          start:   {text: 'Start',   state: 'doing',  action: startTask}
+        };
+
+        return {
+          doing:   [pause, done],
+          domore:  [resume, cancel],
+          done:    [domore],
+          newTask: [start],
+          paused:  [resume, done]
+        };
+      })(tasksStore);
+
       $scope.commands = commands.newTask;
 
-      $scope.transitionTo = state => {
+      // $scope.transitionTo = state => {
+      //   $scope.commands = commands[state];
+      // };
+
+      $scope.activate = command => {
+        const {action, state} = command,
+              {task} = $scope;
+
+        if (action) action(task);
+
         $scope.commands = commands[state];
       };
 

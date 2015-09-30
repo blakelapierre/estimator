@@ -36,7 +36,7 @@ module.exports = () => {
 
     function createRecord() {
       return {
-        summary: {total: 0, start: false, end: false, inProgress: false, componentCount: 0},
+        summary: {total: 0, start: false, end: false, inProgress: false, componentCount: 0, done: false},
         components: {}
       };
     }
@@ -51,6 +51,7 @@ module.exports = () => {
   }
 
   function startTask(task) {
+    console.log('startTask', {task});
     const {record} = task,
           {summary} = record;
 
@@ -68,13 +69,14 @@ module.exports = () => {
     record.currentComponent = component;
 
     summary.componentCount++;
+    summary.inProgress = false;
 
     if (!summary.start) {
       summary.start = start;
     }
 
     function nextComponentId(task) {
-      return task.summary.componentCount;
+      return summary.componentCount;
     }
   }
 
@@ -91,10 +93,7 @@ module.exports = () => {
     summary.end = now;
     summary.inProgress = false;
 
-    summary.total = _.reduce(components, (sum, component) => {
-      const {end, start} = component;
-      return end - start;
-    }, 0);
+    summary.total = _.reduce(components, (sum, {end, start}) => sum + (end - start), 0);
 
     delete record.currentComponent;
   }
@@ -103,11 +102,11 @@ module.exports = () => {
     const {record} = task,
           {currentComponent, summary} = record;
 
-    if (currentComponent) {
-      pauseTask(task);
-    }
+    if (currentComponent) pauseTask(task);
 
     task.end = new Date().getTime();
+
+    summary.done = true;
   }
 
   function nextId() { // consider uuid

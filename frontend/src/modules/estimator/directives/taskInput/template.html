@@ -22,7 +22,10 @@
     </div>
 
     <div class="commands">
-      <button ng-repeat="command in commands" ng-click="transitionTo(command.state)"><div class="text">{{::command.text}}</div></button>
+      <button ng-repeat="command in commands" ng-click="activate(command)"><div class="text">{{::command.text}}</div></button>
     </div>
   </div>
+
+  <div>{{task.record.summary}}</div>
+  <div ng-repeat="component in task.record.components">{{component}}</div>
 </div>
