@@ -7,7 +7,7 @@ const commands = (() => {
     done:    {text: 'Done',    state: 'done'},
     pause:   {text: 'Pause',   state: 'paused'},
     resume:  {text: 'Resume',  state: 'doing'},
-    start:   {text: 'Start',   state: 'doing' }
+    start:   {text: 'Start',   state: 'doing'}
   };
 
   return {
