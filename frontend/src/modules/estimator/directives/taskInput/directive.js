@@ -51,13 +51,13 @@ const commands = (() => {
   }
 
   done {
-    : restart {
+    : domore {
       "Do More"
-      -> restart
+      -> domore
     }
   }
 
-  restart {
+  domore {
     : resume {
       "Resume"
       -> doing
