@@ -13,7 +13,7 @@
            contenteditable="true"
            editable-type="string"
            auto-focus="true"
-           placeholder="Add to the Calendar (e.g. 'finish document @2pm 5 minutes #research') ..."></div>
+           placeholder="Enter Task (e.g. 'finish document @2pm 5 minutes #research') ..."></div>
 
   </div>
   <div class="footer" ng-if="isEditing">
@@ -22,7 +22,7 @@
     </div>
 
     <div class="commands">
-      <button><div class="text">Done</div></button>
+      <button ng-repeat="command in commands" ng-click="transitionTo(command.state)"><div class="text">{{::command.text}}</div></button>
     </div>
   </div>
 </div>

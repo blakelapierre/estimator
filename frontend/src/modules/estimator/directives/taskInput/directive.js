@@ -1,10 +1,35 @@
 import _ from 'lodash';
 
+const commands = (() => {
+  const {pause, start, done, resume, restart, cancel} =  {
+    pause: {text: 'Pause', state: 'paused'},
+    start: {text: 'Start', state: 'doing' },
+    done: {text: 'Done', state: 'done'},
+    resume: {text: 'Resume', state: 'doing'},
+    restart: {text: 'Start Again', state: 'restart'},
+    cancel: {text: 'Cancel', state: 'done'}
+  };
+
+  return {
+    newTask: [start],
+    doing: [pause, done],
+    done: [restart],
+    paused: [done, resume],
+    restart: [resume, cancel]
+  };
+})();
+
 module.exports = () => {
   return {
     restrict: 'E',
     template: require('./template.html'),
     controller: ['$scope', 'tasksStore', 'parser', ($scope, tasksStore, parser) => {
+      $scope.commands = commands.newTask;
+
+      $scope.transitionTo = state => {
+        $scope.commands = commands[state];
+      };
+
       let isEditing = false;
 
       $scope.$watch('task.text', textChanged);
