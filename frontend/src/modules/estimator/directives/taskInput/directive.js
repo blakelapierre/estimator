@@ -136,7 +136,7 @@ module.exports = () => {
         const {task: {record: {summary, components, currentComponent}}} = $scope,
               { total} = summary;
 
-        return total + (currentComponent ?  (new Date().getTime() - currentComponent.start): 0);
+        return timeToString(total + (currentComponent ?  (new Date().getTime() - currentComponent.start): 0));
       };
 
       let isEditing = false;
@@ -330,4 +330,24 @@ const toMilliseconds = {
 
 function inMilliseconds({magnitude, unit}) {
   return toMilliseconds[unitMap[unit]](magnitude);
+}
+
+function timeToString(time) {
+  let secondsTotal = time / 1000,
+      milliseconds = time % 1000,
+      [minutesTotal, seconds] = [secondsTotal / 60,           Math.floor(secondsTotal % 60)],
+        [hoursTotal, minutes] = [minutesTotal / 60,           Math.floor(minutesTotal % 60)],
+         [daysTotal,   hours] = [hoursTotal / 24,             Math.floor(hoursTotal % 24)],
+             [years,    days] = [Math.floor(daysTotal / 365), Math.floor(daysTotal % 365)]; // won't handle leap years
+
+  return _.compact(
+          [
+              years > 1 ? `${years} years` :              years        > 0 ? `${years} year` : undefined,
+               days > 1 ? `${days} days`   :              days         > 0 ? `${days} day` : undefined,
+              hours > 1 ? `${hours} hours` :              hours        > 0 ? `${hours} hour` : undefined,
+            minutes > 1 ? `${minutes} minutes` :          minutes      > 0 ? `${minutes} minute` : undefined,
+            seconds > 1 ? `${seconds} seconds` :          seconds      > 0 ? `${seconds} second` : undefined,
+       milliseconds > 1 ? `${milliseconds} milliseconds` : milliseconds > 0 ? `${milliseconds} millisecond` : undefined
+          ]
+         ).join(' ');
 }
