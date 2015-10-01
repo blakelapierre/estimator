@@ -29,10 +29,13 @@
   <div ng-if="task && task.record.summary.start > 0" class="details">
     <div class="time-spent">{{timeSpent()}}</div>
     <div>{{task.record.summary}}</div>
-    <div ng-repeat="component in task.record.components"
+    <div ng-repeat="component in task.record.components | orderBy:'-start'"
          class="time-component">
-      {{component.start | date : 'MMM d, yyyy h:m:s a'}}
-      {{component.end ? (component.end - component.start) : ''}}
+      {{component.start | date : 'MMM d, yyyy hh:mm:ss a'}}
+      <div class="progress-container">
+        <div class="progress-bar" ng-style="{'width': (100 * (component.end - component.start) / task.record.summary.total) + '%'}">
+      {{component.end ? (component.end - component.start) : ''}}</div>
+      </div>
     </div>
   </div>
 </div>
