@@ -7,7 +7,7 @@ export default ['$compile', '$timeout', ($compile, $timeout) => {
     link($scope, element, attributes) {
       const tag = element[0].tagName,
             splitOn = attributes['splitOn'],
-            attributeString = _.map(attributes.$attr, (value, name) => ` ${name}="${attributes[name]}"`).join('');
+            attributeString = _.map(attributes.$attr, (value, name) => ` ${value}="${attributes[name]}"`).join('');
 
       attachSplit($scope);
 
