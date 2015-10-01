@@ -26,7 +26,8 @@
     </div>
   </div>
 
-  <div class="details">
+  <div ng-if="task" class="details">
+    {{timeSpent()}}
     <div>{{task.record.summary}}</div>
     <div ng-repeat="component in task.record.components">{{component}}</div>
   </div>

@@ -92,15 +92,17 @@ module.exports = () => {
     restrict: 'E',
     template: require('./template.html'),
     controller: ['$scope', 'tasksStore', 'parser', ($scope, tasksStore, parser) => {
-      const states = (({endTask, pauseTask, startTask}) => {
-        const {cancel, done, domore, pause, resume, start} = {
+      const states = (() => {
+        const transitions = {
           cancel:  {text: 'Cancel',  state: 'done'},
           domore:  {text: 'Do More', state: 'domore'},
-          done:    {text: 'Done',    state: 'done',   action: endTask},
-          pause:   {text: 'Pause',   state: 'paused', action: pauseTask},
-          resume:  {text: 'Resume',  state: 'doing',  action: startTask},
-          start:   {text: 'Start',   state: 'doing',  action: startTask}
+          done:    {text: 'Done',    state: 'done',   action: 'end'},
+          pause:   {text: 'Pause',   state: 'paused', action: 'pause'},
+          resume:  {text: 'Resume',  state: 'doing',  action: 'start'},
+          start:   {text: 'Start',   state: 'doing',  action: 'start'}
         };
+
+        const {cancel, done, domore, pause, resume, start} = transitions;
 
         return {
           doing:   [pause, done],
@@ -109,17 +111,32 @@ module.exports = () => {
           newTask: [start],
           paused:  [resume, done]
         };
-      })(tasksStore);
+      })();
+
+      const map = (({endTask, pauseTask, startTask}) => ({
+        'end': endTask,
+        'pause': pauseTask,
+        'start': startTask
+      }))(tasksStore);
 
       $scope.commands = states.newTask;
 
       $scope.activate = command => {
         const {action, state} = command,
+              fn = map[action],
               {task} = $scope;
 
-        if (action) action(task);
+        if (fn) fn(task);
 
         $scope.commands = states[state];
+        $scope.currentState = state;
+      };
+
+      $scope.timeSpent = () => {
+        const {task: {record: {summary, components, currentComponent}}} = $scope,
+              { total} = summary;
+
+        return total + (currentComponent ?  (new Date().getTime() - currentComponent.start): 0);
       };
 
       let isEditing = false;
@@ -288,7 +305,8 @@ function extractEstimate(text = '') {
 }
 
 function extractTags(text = '') {
-  return text.match(/#([\w\d]+)/g);
+  return text.match(/#([\w\d\s]+(  )?)/g);
+  // return text.match(/#([\w\d]+)/g);
 }
 
 // mapRegex(regex, ([p1, p2, p3]) => ({p1, p2, p3}));
