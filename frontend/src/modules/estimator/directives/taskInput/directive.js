@@ -342,11 +342,11 @@ function timeToString(time) {
 
   return _.compact(
           [
-              years > 1 ? `${years} years` :              years        > 0 ? `${years} year` : undefined,
-               days > 1 ? `${days} days`   :              days         > 0 ? `${days} day` : undefined,
-              hours > 1 ? `${hours} hours` :              hours        > 0 ? `${hours} hour` : undefined,
-            minutes > 1 ? `${minutes} minutes` :          minutes      > 0 ? `${minutes} minute` : undefined,
-            seconds > 1 ? `${seconds} seconds` :          seconds      > 0 ? `${seconds} second` : undefined,
+              years > 1 ? `${years} years` :               years        > 0 ? `${years} year` : undefined,
+               days > 1 ? `${days} days`   :               days         > 0 ? `${days} day` : undefined,
+              hours > 1 ? `${hours} hours` :               hours        > 0 ? `${hours} hour` : undefined,
+            minutes > 1 ? `${minutes} minutes` :           minutes      > 0 ? `${minutes} minute` : undefined,
+            seconds > 1 ? `${seconds} seconds` :           seconds      > 0 ? `${seconds} second` : undefined,
        milliseconds > 1 ? `${milliseconds} milliseconds` : milliseconds > 0 ? `${milliseconds} millisecond` : undefined
           ]
          ).join(' ');
