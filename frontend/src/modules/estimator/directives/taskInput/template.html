@@ -1,6 +1,4 @@
-<div ng-class="{'indicator': true,
-                'is-editing': isEditing
-               }">
+<div class="indicator {{currentState ? 'state-' + currentState : ''}} {{isEditing ? 'is-editing' : ''}}">
   <div class="input">
     <div type="text" ng-model="estimate"
          class="f estimate-input"
@@ -27,14 +25,12 @@
   </div>
 
   <div ng-if="task && task.record.summary.start > 0" class="details">
-    <div class="time-spent">{{timeSpent()}}</div>
-    <div>{{task.record.summary}}</div>
+    <div class="time-spent">Time Spent: {{timeSpent()}}</div>
     <div ng-repeat="component in task.record.components | orderBy:'-start'"
          class="time-component">
       {{component.start | date : 'MMM d, yyyy hh:mm:ss a'}}
       <div class="progress-container">
-        <div class="progress-bar" ng-style="{'width': (100 * (component.end - component.start) / task.record.summary.total) + '%'}">
-      {{component.end ? (component.end - component.start) : ''}}</div>
+        <div class="bar" ng-style="{'width': (100 * (component.end - component.start) / task.record.summary.longestComponent) + '%'}">{{component.end ? (component.end - component.start) : ''}}</div>
       </div>
     </div>
   </div>

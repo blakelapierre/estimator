@@ -2,7 +2,6 @@ task-input {
   display: flex;
 
   justify-content: center;
-  // padding: 1em;
 
   .indicator {
     display: flex;
@@ -33,6 +32,22 @@ task-input {
           });
         }
       }
+    }
+
+    &.state-doing {
+      background-color: #060;
+    }
+
+    &.state-paused {
+      background-color: #660;
+    }
+
+    &.state-done {
+      background-color: #300;
+    }
+
+    &.state-domore {
+      background-color: #606;
     }
 
     .input {
@@ -220,14 +235,29 @@ task-input {
       .time-component {
         display: flex;
 
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(127, 127, 127, 0.5);
+
+          .progress-container {
+            .bar {
+              font-weight: bold;
+            }
+          }
+        }
+
         .progress-container {
           flex: 1 1 auto;
 
-          background-color: #333;
-        }
+          background-color: rgba(0, 0, 0, 0.7);
 
-        .progresss-bar {
-          background-color: #030;
+          .bar {
+            color: #ff0;
+
+            background-color: rgba(0, 255, 0, 0.5);
+
+          }
         }
       }
     }

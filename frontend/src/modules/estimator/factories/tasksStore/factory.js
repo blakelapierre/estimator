@@ -36,7 +36,7 @@ module.exports = () => {
 
     function createRecord() {
       return {
-        summary: {total: 0, start: false, end: false, inProgress: false, componentCount: 0, done: false},
+        summary: {total: 0, start: false, end: false, inProgress: false, componentCount: 0, done: false, longestComponent: 0},
         components: {}
       };
     }
@@ -85,16 +85,18 @@ module.exports = () => {
     const {record} = task,
           {components, currentComponent, summary} = record,
           {start} = currentComponent,
-          now = new Date().getTime();
+          now = new Date().getTime(),
+          total = now - start;
 
     currentComponent.end = now;
-
-    currentComponent.total = now - start;
+    currentComponent.total = total;
 
     summary.end = now;
     summary.inProgress = false;
 
     summary.total = _.reduce(components, (sum, {end, start}) => sum + (end - start), 0);
+
+    if (total > summary.longestComponent || 0) summary.longestComponent = total;
 
     delete record.currentComponent;
   }
