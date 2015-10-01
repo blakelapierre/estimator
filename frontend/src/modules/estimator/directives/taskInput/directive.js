@@ -93,7 +93,7 @@ module.exports = () => {
     template: require('./template.html'),
     controller: ['$scope', 'tasksStore', 'parser', ($scope, tasksStore, parser) => {
       const states = (({endTask, pauseTask, startTask}) => {
-        const {cancel, done, domore, pause, resume, start} =  {
+        const {cancel, done, domore, pause, resume, start} = {
           cancel:  {text: 'Cancel',  state: 'done'},
           domore:  {text: 'Do More', state: 'domore'},
           done:    {text: 'Done',    state: 'done',   action: endTask},
