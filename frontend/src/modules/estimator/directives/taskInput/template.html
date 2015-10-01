@@ -29,6 +29,10 @@
   <div ng-if="task && task.record.summary.start > 0" class="details">
     <div class="time-spent">{{timeSpent()}}</div>
     <div>{{task.record.summary}}</div>
-    <div ng-repeat="component in task.record.components">{{component}}</div>
+    <div ng-repeat="component in task.record.components"
+         class="time-component">
+      {{component.start | date : 'MMM d, yyyy h:m:s a'}}
+      {{component.end ? (component.end - component.start) : ''}}
+    </div>
   </div>
 </div>
