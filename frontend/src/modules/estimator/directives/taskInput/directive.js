@@ -113,10 +113,6 @@ module.exports = () => {
 
       $scope.commands = commands.newTask;
 
-      // $scope.transitionTo = state => {
-      //   $scope.commands = commands[state];
-      // };
-
       $scope.activate = command => {
         const {action, state} = command,
               {task} = $scope;
