@@ -69,7 +69,8 @@ module.exports = () => {
     record.currentComponent = component;
 
     summary.componentCount++;
-    summary.inProgress = false;
+    summary.inProgress = true;
+    summary.done = false;
 
     if (!summary.start) {
       summary.start = start;
