@@ -92,7 +92,7 @@ module.exports = () => {
     restrict: 'E',
     template: require('./template.html'),
     controller: ['$scope', 'tasksStore', 'parser', ($scope, tasksStore, parser) => {
-      const commands = (({endTask, pauseTask, startTask}) => {
+      const states = (({endTask, pauseTask, startTask}) => {
         const {cancel, done, domore, pause, resume, start} =  {
           cancel:  {text: 'Cancel',  state: 'done'},
           domore:  {text: 'Do More', state: 'domore'},
@@ -111,7 +111,7 @@ module.exports = () => {
         };
       })(tasksStore);
 
-      $scope.commands = commands.newTask;
+      $scope.commands = states.newTask;
 
       $scope.activate = command => {
         const {action, state} = command,
@@ -119,7 +119,7 @@ module.exports = () => {
 
         if (action) action(task);
 
-        $scope.commands = commands[state];
+        $scope.commands = states[state];
       };
 
       let isEditing = false;
