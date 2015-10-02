@@ -105,11 +105,11 @@ module.exports = () => {
         const {cancel, done, domore, pause, resume, start} = transitions;
 
         return {
-          doing:   [pause, done],
+          doing:   [done, pause],
           domore:  [resume, cancel],
           done:    [domore],
           newTask: [start],
-          paused:  [resume, done]
+          paused:  [done, resume]
         };
       })();
 
