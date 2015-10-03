@@ -5,6 +5,16 @@ module.exports = () => {
 
   let _id = 0;
 
+  const transitions = {
+    tasks: {add: ({create}, text) => create(text)},
+    task: {
+      update: ({update}, text) => update(text),
+      start: ({start}) => start(),
+      pause: ({pause}) => pause(),
+      done: ({done}) => done()
+    }
+  };
+
   return {
     addTask,
     updateTask,
