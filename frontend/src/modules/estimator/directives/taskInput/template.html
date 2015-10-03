@@ -20,6 +20,7 @@
     </div>
 
     <div class="commands">
+      <span ng-if="commandPrompt" class="command-prompt">{{commandPrompt}}</span>
       <button ng-repeat="command in commands" ng-click="activate(command)"><div class="text">{{::command.text}}</div></button>
     </div>
   </div>

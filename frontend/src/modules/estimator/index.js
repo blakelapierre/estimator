@@ -8,14 +8,18 @@ import generator from '../generator';
 module.exports = {
   'contenteditable': contenteditable['contenteditable'],
   'estimator': angular.module('estimator', ['ngAnimate', 'ngRoute', 'contenteditable', 'generator'])
-    .directive('calendar',       require('./directives/calendar/directive'))
-      .directive('listView',       require('./directives/calendar/listView/directive'))
-    .directive('estimator',      require('./directives/estimator/directive'))
-    .directive('task',      require('./directives/task/directive'))
-    .directive('taskInput',      require('./directives/taskInput/directive'))
+    .directive('calendar',          require('./directives/calendar/directive'))
+      .directive('listView',        require('./directives/calendar/listView/directive'))
 
-    .factory('tasksStore',       require('./factories/tasksStore/factory'))
-    .factory('parser',           require('./factories/parser/factory'))
+    .directive('estimator',         require('./directives/estimator/directive'))
+    .directive('task',              require('./directives/task/directive'))
+    .directive('taskInput',         require('./directives/taskInput/directive'))
+
+    .factory('localStorage',        require('./factories/localStorage/factory'))
+    .factory('tasksStore',          require('./factories/tasksStore/factory'))
+    .factory('parser',              require('./factories/parser/factory'))
+
+    .filter('duration',             require('./filters/duration/filter'))
 
     .config(['$routeProvider', $routeProvider => {
 

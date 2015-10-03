@@ -1,30 +1,17 @@
----------------
-
- First, make sure you have gulpur installed so that you can use ECMAScript 6 features in the gulpfile. This allows more concise syntax and is thus easier to read.
-
-`npm install -g gulpur`
-
-##### Install
 ````
-git clone https://github.com/blakelapierre/estimator
-cd estimator/frontend
-npm install
+Tasks
+  Done / Not Done
+  Duration
+  Start time
+  End time
+  Count
 ````
 
 
-##### Development
-During development use the `dev` task to launch a browser window pre-wired to live reload instantly when you modify the source (HTML/LESS/JS).
+##Symbolic Meaning
 
-`gulpur dev`
-
-
-##### Build
-Produce a concatenated, minified, distributable directory.
-
-`gulpur build`
-
-The output is placed in `frontend/.dist`.
-
-
----------------
-Pull Requests, Issues, and all other Contributions are welcome and encouraged. The goal of this project is to be a base to facilitate the rapid development of websites, either for personal projects, or for widespread distribution.
+Symbol | Meaning            | Slightly more info
+-------|--------------------|--------------------
+   @   | Time or Location.  | Task occurs at a specific time or place. (e.g. @2PM, or @SFO, or @3:45 AM Saturday Morning)
+   +   | Duration.          |
+   #   | Tag.               | Associate a custom name with the task. Tasks assigned the same names can be grouped and analyzed together.

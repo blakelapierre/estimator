@@ -1,19 +1,83 @@
 import _ from 'lodash';
+import lzs from 'lz-string';
 
-module.exports = () => {
-  const tasks = {};
+module.exports = ['localStorage', localStorage => {
+  console.log({localStorage});
+  const tasks = loadTasks() || {};
+  console.log({tasks});
 
-  let _id = 0;
+  function get(key) {
+    const packed = localStorage.getItem(key),
+          text = packed ? lzs.decompressFromUTF16(packed) : undefined;
+console.log('Read', key, 'got', text);
+    return text;
+  }
 
-  const transitions = {
-    tasks: {add: ({create}, text) => create(text)},
-    task: {
-      update: ({update}, text) => update(text),
-      start: ({start}) => start(),
-      pause: ({pause}) => pause(),
-      done: ({done}) => done()
-    }
-  };
+  function set(key, value) {
+    if (value === undefined) localStorage.removeItem(key); // do we want this?
+    else localStorage.setItem(key, lzs.compressToUTF16(text));
+  }
+
+  function getJSON(key) {
+    const text = get(key);
+    return text ? JSON.parse(text) : undefined;
+  }
+
+  function setJSON(key, value) {
+    set(key, JSON.stringify(value));
+  }
+
+  function loadTasks() {
+    const taskIds = getJSON('taskIds') || [];
+
+    return taskIds.map(id => getJSON(`task-${id}`));
+  }
+
+  let _id = tasks.length;
+
+  // ignore these comments
+
+  // const transitions = {
+  //   Tasks: {
+  //     //$state: Tasks,
+  //     add: ({Task}, text) => Task(text)
+  //   },
+  //   Task: {
+  //     //$state: Task,
+  //     update: ({update}, text) => update(text),
+  //     start: ({start}) => start(),
+  //     pause: ({pause}) => pause(),
+  //     done: ({done}) => done()
+  //   }
+  // };
+
+  // const context = {
+  //   Tasks: {
+  //     Task
+  //   }
+  // };
+
+  // function Task(text) {
+
+  // }
+
+  // const resolve = ([part, ...rest], transitions = transitions, context = clone(context)) => mark(context, part) && rest ? resolve(rest, transitions[part], context) : (data => transitions[part](context, data));
+
+  // function clone(context) {
+  //   return {};
+  // }
+
+  // function mark(fakeContext, item) {
+  //   fakeContext[item] = context[item];
+
+  //   return fakeContext;
+  // }
+
+  // fold(eventSource, dispatch);
+
+  // function dispatch([path, data]) {
+  //   return resolve(path)(data);
+  // }
 
   return {
     addTask,
@@ -21,7 +85,8 @@ module.exports = () => {
     getTasks,
     startTask,
     pauseTask,
-    endTask
+    endTask,
+    tasks
   };
 
   function addTask(config = {}) {
@@ -41,6 +106,9 @@ module.exports = () => {
           record,
           isDone: false
         };
+
+    storeTaskIds(tasks);
+    storeTask(task);
 
     return task;
 
@@ -86,6 +154,8 @@ module.exports = () => {
       summary.start = start;
     }
 
+    storeTask(task);
+
     function nextComponentId(task) {
       return summary.componentCount;
     }
@@ -109,6 +179,8 @@ module.exports = () => {
     if (total > summary.longestComponent || 0) summary.longestComponent = total;
 
     delete record.currentComponent;
+
+    storeTask(task);
   }
 
   function endTask(task) {
@@ -120,12 +192,23 @@ module.exports = () => {
     task.end = new Date().getTime();
 
     summary.done = true;
+
+    storeTask(task);
   }
 
   function nextId() { // consider uuid
     return _id++;
   }
-};
+
+  function storeTaskIds(tasks) {
+    localStorage.setItem(`taskIds`, lzs.compressToUTF16(JSON.stringify(tasks.map(({id}) => (id)))));
+  }
+
+  function storeTask(task) {
+    const {id} = task;
+    localStorage.setItem(`task-${id}`, lzs.compressToUTF16(JSON.stringify(task)));
+  }
+}];
 
 const task = {
   get id() { return 1; },
@@ -228,14 +311,13 @@ function watch(stream) {
   };
 
   function defaultHandler(event) {
-    history.push({event, at: new Date()});
+    history.push(bundle(event));
   }
 
   function listen(callback) {
     lock();
     lock = stream.on(event => {
-      const e = {event, at: new Date(), version};
-      version++;
+      const e = bundle(event);
       history.push(e);
       callback(e);
     });
@@ -247,6 +329,8 @@ function watch(stream) {
     history = [];
     return oldHistory;
   }
+
+  function bundle(event) { return {event, at: new Date(), version: version++}; }
 }
 
 function register(obj) {

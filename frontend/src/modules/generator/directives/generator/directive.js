@@ -7,9 +7,24 @@ export default ['$compile', '$timeout', ($compile, $timeout) => {
     link($scope, element, attributes) {
       const tag = element[0].tagName,
             splitOn = attributes['splitOn'],
-            attributeString = _.map(_.filter(attributes.$attr, value => value !== 'split-on'), (value, name) => ` ${value}="${attributes[name]}"`).join('');
+            source = attributes['source'],
+            destination = attributes['destination'],
+            attributeString = _.map(_.filter(attributes.$attr, value => value !== 'split-on' && value !== 'source' && value !== 'destination'), (value, name) => ` ${value}${attributes[name] ? '=' + attributes[name] : ''}`).join('');
+
+      $scope.$parent.$watch(source, spawnExisting);
 
       attachSplit($scope);
+
+      function spawnExisting(items = []) {
+
+        console.log({$scope, source, attributes, items});
+        items.map(item => {
+          const scope = split();
+
+          scope[destination] = item;
+          console.log('Spawned', scope);
+        });
+      }
 
       function attachSplit(scope) {
         const off = scope.$on(splitOn, splitInFuture);
@@ -21,14 +36,14 @@ export default ['$compile', '$timeout', ($compile, $timeout) => {
         }
       }
 
-      function split() {
-        const scope = $scope.$new(true);
-
+      function split(scope = $scope.$new(true)) {
         attachSplit(scope);
 
         before(element, $compile(`<${tag}${attributeString}></${tag}>`)(scope));
 
         delete attributes['splitOn'];
+
+        return scope;
       }
     }
   };

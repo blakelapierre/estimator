@@ -96,7 +96,7 @@ module.exports = () => {
         const transitions = {
           cancel:  {text: 'Cancel',  state: 'done'},
           domore:  {text: 'Do More', state: 'domore'},
-          done:    {text: 'Done',    state: 'done',   action: 'end'},
+          done:    {text: 'Done',    state: 'done',   action: 'done'},
           pause:   {text: 'Pause',   state: 'paused', action: 'pause'},
           resume:  {text: 'Resume',  state: 'doing',  action: 'start'},
           start:   {text: 'Start',   state: 'doing',  action: 'start'}
@@ -113,13 +113,22 @@ module.exports = () => {
         };
       })();
 
+      const prompts = {
+        doing: 'Task Active',
+        domore: 'Are You Sure?',
+        done: 'Task Complete',
+        newTask: 'Press Here To Begin ->',
+        paused: 'Task Paused'
+      };
+
       const map = (({endTask, pauseTask, startTask}) => ({
-        'end': endTask,
+        'done': endTask,
         'pause': pauseTask,
         'start': startTask
       }))(tasksStore);
 
       $scope.commands = states.newTask;
+      $scope.commandPrompt = prompts.newTask;
 
       $scope.activate = command => {
         const {action, state} = command,
@@ -129,6 +138,7 @@ module.exports = () => {
         if (fn) fn(task);
 
         $scope.commands = states[state];
+        $scope.commandPrompt = prompts[state];
         $scope.currentState = state;
       };
 
