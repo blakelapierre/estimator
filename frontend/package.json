@@ -6,7 +6,8 @@
   "dependencies": {
     "angular": "^1.4.3",
     "angular-animate": "^1.4.3",
-    "angular-route": "^1.4.3"
+    "angular-route": "^1.4.3",
+    "lz-string": "^1.4.4"
   },
   "devDependencies": {
     "babelify": "^6.1.3",
