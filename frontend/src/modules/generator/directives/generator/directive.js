@@ -15,9 +15,7 @@ export default ['$compile', '$timeout', ($compile, $timeout) => {
 
       function createAttributeString() {
         const {$attr} = attributes,
-              inheritedAttributes = _.filter($attr, value => value !== 'split-on' &&
-                                                             value !== 'source' &&
-                                                             value !== 'destination');
+              inheritedAttributes = _.difference(_.values($attr), ['split-on', 'source', 'destination']);
 
         return _.map(
           inheritedAttributes,
