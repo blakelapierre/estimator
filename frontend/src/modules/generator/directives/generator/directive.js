@@ -6,14 +6,24 @@ export default ['$compile', '$timeout', ($compile, $timeout) => {
     scope: {},
     link($scope, element, attributes) {
       const tag = element[0].tagName,
-            splitOn = attributes['splitOn'],
-            source = attributes['source'],
-            destination = attributes['destination'],
-            attributeString = _.map(_.filter(attributes.$attr, value => value !== 'split-on' && value !== 'source' && value !== 'destination'), (value, name) => ` ${value}${attributes[name] ? '=' + attributes[name] : ''}`).join('');
+            {splitOn, source, destination} = attributes,
+            attributeString = createAttributeString();
 
       $scope.$parent.$watch(source, spawnExisting);
 
       attachSplit($scope);
+
+      function createAttributeString() {
+        const {$attr} = attributes,
+              inheritedAttributes = _.filter($attr, value => value !== 'split-on' &&
+                                                             value !== 'source' &&
+                                                             value !== 'destination');
+
+        return _.map(
+          inheritedAttributes,
+          (value, name) =>
+            ` ${value}${attributes[name] ? '=' + attributes[name] : ''}`).join('');
+      }
 
       function spawnExisting(items = []) {
 
