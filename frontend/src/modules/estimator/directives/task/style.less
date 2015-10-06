@@ -1,5 +1,292 @@
 task {
-  .tag {
-    color: #ff0;
+  display: flex;
+
+  justify-content: center;
+
+  .indicator {
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1 1 auto;
+
+    padding: 0.125em;
+    // margin: 0.125em;
+
+    box-shadow: 0px 0px 5px #666;
+
+    transition: all 0.5s ease-in-out;
+
+    &.is-editing {
+      background-color: rgba(255, 255, 255, 0.1);
+
+      .input {
+        .f {
+          color: #fff;
+
+          // font-size: 1em;
+          padding: 0.25em 0;
+
+          .placeholder({
+            color: #666;
+          });
+        }
+      }
+    }
+
+    &.state-doing {
+      background-color: #060;
+    }
+
+    &.state-paused {
+      background-color: #660;
+    }
+
+    &.state-done {
+      background-color: #300;
+    }
+
+    &.state-domore {
+      background-color: #606;
+    }
+
+    .input {
+      flex: 0 1 auto;
+
+      width: auto;
+
+      background: transparent;
+
+      color: #fff;
+
+      max-height: 50vh;
+
+      overflow: auto;
+
+      text-align: center;
+
+      transition: all 0.5s ease-in-out;
+
+      .input-background {
+        display: inline;
+        color: #000;
+
+        background-color: #eee;
+        color: #000;
+
+        // height: auto;
+        max-height: 50vh;
+        max-width: 100%;
+
+        overflow: auto;
+      }
+
+      [contenteditable=true]:empty:before {
+        // max-width: 22%;
+
+        // transition: all 0.5s linear;
+      }
+
+      .f {
+        display: block;
+
+        text-align: center;
+
+        font-size: 1em;
+        font-family: sans-serif;
+        font-weight: bold;
+
+        background: transparent;
+
+        border: none;
+
+        color: #fff;
+
+        transition: all 0.25s ease-in-out;
+
+        cursor: text;
+
+        .placeholder({
+          color: #fff;
+          text-align: center;
+        });
+
+        &.task-input {
+          margin: 0 auto;
+
+          display: inline-block;
+
+          text-align: left;
+
+          // background-color: #666;
+          // color: #000;
+
+          // height: auto;
+          max-height: 50vh;
+          max-width: 100%;
+
+          outline: none;
+        }
+
+        &.estimate-input {
+          display: flex;
+
+          align-items: center;
+
+          line-height: 1em;
+          font-size: 1.05em;
+
+          float: right;
+
+          // background-color: #fff;
+          color: #aaa;
+
+          text-shadow: 0px 0px 2px #fff;
+        }
+      }
+    }
+
+    .footer {
+      display: flex;
+
+      justify-content: space-between;
+
+      min-width: 50%;
+
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+
+        font-size: 0.75em;
+
+        .tag {
+          margin: 0.25em;
+          padding: 0.25em;
+
+          word-break: break-word;
+
+          background-color: #444;
+
+          transition: all 0.5s ease-in-out;
+
+          &.ng-enter {
+            opacity: 0;
+          }
+
+          &.ng-leave {
+            opacity: 1;
+          }
+
+          &.ng-enter-active {
+            opacity: 1;
+          }
+
+          &.ng-leave-active {
+            opacity: 0;
+          }
+        }
+      }
+
+      .commands {
+        display: flex;
+
+        flex: 0 0 auto;
+
+        .command-prompt {
+          margin: 0.25em 0.5em;
+
+          font-size: 1.1em;
+
+          color: #ddd;
+        }
+
+        button {66
+          background: transparent;
+          border: none;
+
+          color: #900;
+
+          font-size: 1em;
+          font-weight: bold;
+
+          cursor: pointer;
+
+          perspective: 700px;
+          transform-style: perserve-3d;
+
+          &:hover {
+            box-shadow: inset 0px 0px 200em rgba(96, 0, 0, 0.25);
+          }
+
+          .text {
+            margin: 0.25em;
+
+            transform: translateZ(0em);
+
+            transition: all 0.5s ease-in-out;
+
+            &:hover {
+              font-weight: bolder;
+
+              transform: translateZ(5em);
+            }
+          }
+        }
+      }
+    }
+
+    .details {
+      .time-spent {
+        text-align: center;
+      }
+
+      .time-component {
+        display: flex;
+
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(127, 127, 127, 0.5);
+
+          .progress-container {
+            .bar {
+              font-weight: bold;
+            }
+          }
+        }
+
+        .progress-container {
+          flex: 1 1 auto;
+
+          background-color: rgba(0, 0, 0, 0.7);
+
+          .bar {
+            color: #ff0;
+
+            background-color: rgba(0, 255, 0, 0.5);
+
+          }
+        }
+      }
+    }
   }
+}
+
+.placeholder(@rules) {
+  &::-webkit-input-placeholder {
+    @rules();
+  }
+  &:-moz-placeholder {
+    @rules();
+  }
+  &::-moz-placeholder {
+    @rules();
+  }
+  &:-ms-input-placeholder {
+    @rules();
+  }
+}
+
+.ng-animation-fade-in(@rules) {
+
 }

@@ -1,14 +1,38 @@
-<span>{{task.text}}</span>
-<span>{{task.estimate}}</span>
+<div class="indicator {{currentState ? 'state-' + currentState : ''}} {{isEditing ? 'is-editing' : ''}}">
+  <div class="input">
+    <div type="text" ng-model="estimate"
+         class="f estimate-input"
+         contenteditable="true"
+         editable-type="string"
+         ng-show="estimate != null && estimate !== ''"></div>
 
-<div ng-repeat="tag in task.tags">
-  <span class="tag">{{tag}}</span>
-</div>
+    <div type="text" ng-model="text"
+           class="f task-input"
+           contenteditable="true"
+           editable-type="string"
+           auto-focus="true"></div>
 
-<div>
-  <button ng-click="startTimer()">Start</button>
-  <button ng-click="pauseTimer()">||</button>
-  <button ng-click="done()" ng-if="!task.isDone">Done</button>
-  <button ng-click="notDone()" ng-if="task.isDone">Not Done</button>
-  <toggle condition="task.isDone" when-true="notDone()" when-false="done()"></toggle>
+  </div>
+  id: <span>{{task.id}}</span>
+  <div class="footer" ng-if="isEditing">
+    <div class="tags">
+      <span ng-repeat="tag in tags track by $index" class="tag">{{tag}}</span>
+    </div>
+
+    <div class="commands">
+      <span ng-if="commandPrompt" class="command-prompt">{{commandPrompt}}</span>
+      <button ng-repeat="command in commands" ng-click="activate(command)"><div class="text">{{::command.text}}</div></button>
+    </div>
+  </div>
+
+  <div ng-if="task && task.record.summary.start > 0" class="details">
+    <div class="time-spent">Time Spent: {{timeSpent()}}</div>
+    <div ng-repeat="component in task.record.components | orderBy:'-start'"
+         class="time-component">
+      {{component.start | date : 'MMM d, yyyy hh:mm:ss a'}}
+      <div class="progress-container">
+        <div class="bar" ng-style="{'width': (100 * (component.end - component.start) / task.record.summary.longestComponent) + '%'}">{{component.end ? (component.end - component.start) : ''}}</div>
+      </div>
+    </div>
+  </div>
 </div>

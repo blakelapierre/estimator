@@ -1,1 +1,8 @@
-<task-input generator split-on="is-editing" source="tasks" destination="task"></task-input>
+<div class="faux-input" contenteditable ng-keydown="fauxInputDown($event)">
+  <span>Enter Task</span>
+  <span>(e.g. 'finish document @2pm +5 minutes #research !Secret Project')</span>
+</div>
+<div class="tasks">
+  <task ng-repeat="task in tasks track by task.id | orderBy : 'created' : false" task="task"></task>
+</div>
+<!-- <task-input generator split-on="is-editing" source="tasks" destination="task"></task-input> -->

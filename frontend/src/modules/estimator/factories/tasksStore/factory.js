@@ -14,6 +14,7 @@ console.log('Read', key, 'got', text);
   }
 
   function set(key, value) {
+console.log('Setting', key, 'to', value);
     if (value === undefined) localStorage.removeItem(key); // do we want this?
     else localStorage.setItem(key, lzs.compressToUTF16(text));
   }
@@ -109,6 +110,8 @@ console.log('Read', key, 'got', text);
 
     storeTaskIds(tasks);
     storeTask(task);
+
+    console.log('Adding task', task);
 
     return task;
 

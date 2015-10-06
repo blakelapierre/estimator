@@ -7,6 +7,8 @@ module.exports = ['$sce', '$window', function($sce, $window) {
       let ngModel = ngModelx;
       if (!ngModel) return; // do nothing if no ng-model
 
+      console.log({ngModel, $scope});
+
       let settings = attempt(() => $scope.$eval(attributes['editableType']), {type: 'number', default: 1});
 
       if (settings) {
