@@ -1,0 +1,82 @@
+durations dates times tags
+
+
+durations
+
+  const unitPatterns = {
+    'seconds': 'seconds|second|sec|s',
+    'minutes': 'minutes|minute|mins|min|mn|m',
+    'hours':   'hours|hour|hrs|hr|h',
+    'days':    'days|day|d',
+    'weeks':   'weeks|week|wks|wk|w',
+    'months':  'months|month|mths|mth|mos|mo|M',
+    'year':    'years|year|yr|y',
+    'decade':  'decades|decade',
+    'century': 'centuries|century',
+    'eon':     'eons|eon'
+  };
+
+  5m
+  5 min
+
+  \d+\s*({unit})
+
+  DURATION := NUMBER {WHITESPACE} UNIT
+
+  NUMBER := DIGIT {NUMBER}
+
+  DIGIT := 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+
+  WHITESPACE := \tab | \space
+
+  UNIT := SECOND | MINUTE | HOUR | DAY | WEEK | MONTH | YEAR | DECADE | CENTURIE | EON
+
+  SECOND := seconds | second | sec | s
+
+  MINUTE := minutes | minutes | mins | min | mn | m
+
+  HOUR := hours | hour | hrs | hr | h
+
+  DAY := days | day | d
+
+  WEEK := weeks | week | wks | wk |w
+
+  MONTH := months | month | mths | mth | mos | mo | M
+
+  YEAR := years | year | yr | y
+
+  DECADE := decades | decade
+
+  CENTURY := centuries | century
+
+  EON := eons | eon
+
+
+dates
+
+  ISO something
+
+times
+
+  @5pm
+  @1:30
+  @9:45:30PM EST
+
+  TIME := @ {WHITESPACE} INSTANT
+
+  INSTANT := NUMBER {: NUMBER {: NUMBER}} {WHITESPACE} {AM | PM} {TIMEZONE}
+
+  TIMEZONE := est | edt | cst | cdt | pst | pdt
+
+tags
+
+  #tag_name
+  ##tag name#
+
+  TAG := # NAME
+
+  NAME := NAME_CHARACTER {NAME_CHARACTER}
+
+  NAME_CHARACTER := ALPHA | NUMBER | _
+
+  ALPHA = a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z
